@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evaluasi Konseling Dasar — PP Al Furqon</title>
+  <style>
+    :root {
+      --bg: #f4f7f5;
+      --card: #ffffff;
+      --primary: #1b4332;
+      --primary-dark: #102a1f;
+      --accent: #b45309;
+      --accent-soft: #fef3c7;
+      --border: #d1d5db;
+      --text: #1e293b;
+      --muted: #64748b;
+      --danger: #b91c1c;
+      --success: #15803d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 16px;
+    }
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+    .header-box {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #fff;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+    .header-box .tag {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      color: #fde047;
+      text-transform: uppercase;
+    }
+    .header-box h1 {
+      font-size: 20px;
+      margin: 4px 0 6px;
+    }
+    .header-box p {
+      font-size: 13px;
+      color: #e2e8f0;
+    }
+    .form-group {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    input[type="text"], input[type="password"], select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--primary-dark); }
+    .btn-accent { background: var(--accent); }
+    .btn-outline {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .sticky-bar {
+      position: sticky;
+      top: 8px;
+      z-index: 20;
+      background: var(--primary-dark);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      font-size: 13px;
+    }
+    .badge-warn {
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .q-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
+      background: #fcfdfd;
+    }
+    .q-title {
+      font-weight: 600;
+      font-size: 14.5px;
+      margin-bottom: 10px;
+    }
+    .opt-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      font-size: 13.5px;
+    }
+    .opt-item input { margin-top: 3px; }
+    .grid-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .stat-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px;
+      background: #f8fafc;
+    }
+    .stat-box .k { font-size: 12px; color: var(--muted); }
+    .stat-box .v { font-size: 20px; font-weight: 700; color: var(--primary); }
+    .msg-err { color: var(--danger); font-size: 13px; margin-top: 8px; font-weight: 600; }
+    .msg-ok { color: var(--success); font-size: 13px; margin-top: 8px; font-weight: 600; }
+    .hidden { display: none; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+    th, td { border: 1px solid #e2e8f0; padding: 8px; text-align: left; }
+    th { background: #f1f5f9; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-box">
+      <div class="tag">PP Al Furqon Al Islami • Sedayu, Gresik</div>
+      <h1>Pre-Test & Post-Test Konseling Dasar (Individual)</h1>
+      <p>25 Soal Aplikasi Mindset Pembinaan & Praktik Konseling • Akses Akun Individual Peserta</p>
+    </div>
+
+    <!-- PANEL 1: LOGIN -->
+    <div id="loginPanel" class="card">
+      <h2 style="font-size:17px; margin-bottom:12px;">Login Peserta Individual</h2>
+      <div class="form-group">
+        <label for="usernameInput">Username</label>
+        <input type="text" id="usernameInput" placeholder="Masukkan username Anda" autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label for="passwordInput">Password</label>
+        <input type="password" id="passwordInput" placeholder="Masukkan password Anda" autocomplete="current-password" />
+      </div>
+      <button class="btn" id="loginBtn" onclick="handleLogin()">Masuk</button>
+      <button class="btn btn-outline" onclick="loadCohortSummary()">Lihat Rekap & Analisa Hasil</button>
+      <div id="loginMsg" class="msg-err"></div>
+    </div>
+
+    <!-- PANEL 2: PILIH JENIS TES -->
+    <div id="lobbyPanel" class="card hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+        <div>
+          <strong id="userDisplayName" style="font-size:16px;"></strong>
+          <div id="userDisplayMeta" style="font-size:12.5px; color:var(--muted);"></div>
+        </div>
+        <button class="btn btn-outline" onclick="handleLogout()">Keluar</button>
+      </div>
+
+      <div class="form-group">
+        <label for="jenisTesSelect">Pilih Jenis Tes</label>
+        <select id="jenisTesSelect">
+          <option value="PRE_TEST">PRE-TEST (Awal Sesi)</option>
+          <option value="POST_TEST">POST-TEST (Akhir Sesi Hari Ke-1)</option>
+        </select>
+      </div>
+      <p style="font-size:12.5px; color:var(--muted); margin-bottom:12px;">
+        Catatan integritas: Urutan soal dan pilihan diacak per peserta, waktu berjalan otomatis setelah klik <strong>Mulai Tes</strong>, dan perpindahan tab/layar tercatat pada sistem.
+      </p>
+      <button class="btn btn-accent" id="startBtn" onclick="startTestSession()">Mulai Tes</button>
+      <div id="lobbyMsg" class="msg-err"></div>
+    </div>
+
+    <!-- PANEL 3: PENGERJAAN SOAL -->
+    <div id="examPanel" class="hidden">
+      <div class="sticky-bar">
+        <div>
+          <strong id="activeTestLabel"></strong> • <span id="progressCount">0/25 Terjawab</span>
+        </div>
+        <div>
+          Sisa Waktu: <strong id="timerText">25:00</strong> | Pindah Tab: <strong id="tabSwitchText">0</strong>
+        </div>
+      </div>
+
+      <div id="questionsContainer"></div>
+
+      <div class="card" style="text-align:right;">
+        <button class="btn btn-accent" id="submitBtn" onclick="submitAnswers(false)">Kirim Jawaban</button>
+        <div id="submitMsg" class="msg-err"></div>
+      </div>
+    </div>
+
+    <!-- PANEL 4: HASIL INDIVIDU -->
+    <div id="resultPanel" class="card hidden">
+      <h2 style="font-size:17px; margin-bottom:8px;">Hasil Tes Individual</h2>
+      <div id="resultSummaryText" style="font-size:14px; margin-bottom:12px;"></div>
+      <div id="topicBreakdown"></div>
+      <div style="margin-top:14px;">
+        <button class="btn" onclick="backToLobby()">Kembali ke Menu Peserta</button>
+        <button class="btn btn-outline" onclick="loadCohortSummary()">Lihat Rekap & Analisa Pelatihan</button>
+      </div>
+    </div>
+
+    <!-- PANEL 5: REKAP RATA-RATA & ANALISA -->
+    <div id="summaryPanel" class="card hidden">
+      <h2 style="font-size:17px; margin-bottom:6px;">Rekap Rata-Rata & Analisa Hasil Pelatihan</h2>
+      <p style="font-size:12.5px; color:var(--muted); margin-bottom:10px;">
+        Evaluasi berbasis nilai rata-rata total peserta (individual) dan perbandingan capaian Pre-Test vs Post-Test.
+      </p>
+      <div class="grid-stats" id="cohortStatsGrid"></div>
+      <div id="cohortAnalysisBox" style="background:#f8fafc; border-left:4px solid var(--primary); padding:12px; border-radius:8px; font-size:13.5px; margin-bottom:12px;"></div>
+      <div id="topicTableWrap"></div>
+      <div style="margin-top:12px;">
+        <button class="btn btn-outline" onclick="document.getElementById('summaryPanel').classList.add('hidden')">Tutup Rekap</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // GANTI URL DI BAWAH INI DENGAN WEB APP URL DARI GOOGLE APPS SCRIPT ANDA
+    const GAS_WEB_APP_URL = "MASUKKAN_WEB_APP_URL_ANDA";
+
+    const BANK_SOAL = [
+      { id: 1, q: "Seorang santri selalu datang tepat waktu ke masjid hanya ketika melihat ustadz piket berdiri di depan pintu asrama. Begitu pengawasan longgar, ia kembali terlambat. Mengapa pendekatan sanksi atau pengawasan ketat semata tidak efektif dalam jangka panjang?", opts: ["Santri menjadi terlalu berani berdiskusi terbuka dengan pembina asrama", "Hukuman dan rasa takut hanya menekan perilaku sementara saat diawasi", "Pengawasan ketat otomatis menghilangkan rasa jenuh santri di kamar", "Sanksi langsung menumbuhkan kesadaran batin tanpa perlu pendampingan"] },
+      { id: 2, q: "Ketika pembina asrama sering menyelesaikan pelanggaran santri dengan bentakan, nada tinggi, atau hukuman yang mempermalukan di depan umum, dampak jangka panjang apakah yang paling rawan muncul di asrama?", opts: ["Santri junior menjadi lebih berani melaporkan masalah pribadi secara jujur", "Santri senior meniru cara tersebut sebagai bentuk kekuasaan terhadap adik kelas", "Hubungan emosional antara pembina dan santri menjadi semakin hangat", "Budaya saling menghormati antarpenghuni kamar tumbuh secara otomatis"] },
+      { id: 3, q: "Prinsip 'ketegasan prinsip dengan kelembutan cara' (QS. Ali 'Imran: 159 & QS. Al-Baqarah: 256) dalam pembinaan santri bermakna bahwa ustadz/ustadzah sebaiknya:", opts: ["Membiarkan pelanggaran tata tertib tanpa teguran agar santri merasa nyaman", "Menegakkan aturan dengan dialog empatik, penjelasan logis, dan tanpa kekerasan", "Mengutamakan ancaman sanksi berat sebelum mendengarkan penjelasan santri", "Hanya menerapkan pendekatan dialogis pada santri yang berprestasi akademik"] },
+      { id: 4, q: "Santri baru jenjang SD (usia 7–12 tahun) sering masih bingung membedakan batas barang milik pribadi dan milik teman sekamar, sehingga tanpa sengaja memakai sandal teman. Respons pembinaan yang paling sesuai dengan tahap perkembangannya adalah:", opts: ["Melabelinya sebagai pencuri di depan teman sekamar agar merasa jera", "Menjelaskan dengan contoh konkret cara menandai sandal dan melatih kebiasaan izin bertahap", "Memberinya ceramah panjang tentang konsep hak kepemilikan secara abstrak", "Membiarkannya saja karena dianggap tidak mungkin dilatih sebelum usia SMP"] },
+      { id: 5, q: "Seorang santri SD tampak minder dan enggan maju setoran hafalan setelah beberapa kali dikritik keras di depan teman-temannya. Langkah praktis konseling dasar manakah yang paling tepat dilakukan ustadz/ustadzah?", opts: ["Membandingkan hafalannya dengan teman sekamar yang paling cepat hafal", "Memecah target setoran menjadi bagian kecil dan mengapresiasi setiap usaha kemajuannya", "Menambah porsi hukuman hafalan setiap kali ia melakukan kesalahan bacaan", "Menunda pendampingan hingga ia sendiri yang meminta jadwal setoran"] },
+      { id: 6, q: "Santri jenjang SMP (usia 13–15 tahun) cenderung sangat mudah tersinggung bila ditegur di depan teman-temannya dan lebih memilih solidaritas kelompok daripada aturan kamar. Cara menyikapi dinamika ini saat konseling adalah:", opts: ["Menegurnya secara terbuka di forum kelas agar menjadi pelajaran bagi kelompoknya", "Mengajaknya berdialog empat mata di ruang aman sambil tetap menghargai harga dirinya", "Memutuskan seluruh hubungan pertemanannya secara sepihak tanpa dialog", "Mengabaikan pelanggarannya karena dianggap wajar pada semua remaja SMP"] },
+      { id: 7, q: "Pada usia SMP (13–15 tahun), santri sering kali bereaksi emosional secara meledak-ledak saat ditegur, padahal secara akademik ia cerdas. Sikap pendampingan yang paling tepat menghadapi kondisi ini adalah:", opts: ["Membalas kemarahannya dengan nada yang lebih tinggi agar ia segera tunduk", "Menjaga ketenangan diri, memberi jeda hingga emosinya mereda, lalu mengajaknya berdiskusi", "Langsung menjatuhkan skorsing saat santri masih dalam puncak luapan emosi", "Menyimpulkan bahwa santri tersebut memiliki gangguan kepribadian permanen"] },
+      { id: 8, q: "Santri jenjang SMA (usia 16–18 tahun) mulai kritis mempertanyakan alasan di balik aturan pondok dan ingin diperlakukan lebih dewasa. Pendekatan konseling yang paling efektif untuk jenjang ini adalah:", opts: ["Menutup ruang tanya jawab dengan kalimat 'Pokoknya aturan pondok tidak boleh ditanya'", "Membuka dialog rasional mengenai tujuan aturan dan melibatkannya merumuskan komitmen", "Membebaskan santri SMA dari seluruh tata tertib asrama agar merasa mandiri", "Mengancam akan menghubungi orang tua setiap kali ia mengajukan pertanyaan kritis"] },
+      { id: 9, q: "Dalam mendampingi santri tingkat akhir atau mahasantri Diploma (usia 19–21 tahun) yang tampak kehilangan semangat pengabdian dan bingung menentukan arah masa depan, peran konseling ustadz/ustadzah yang paling tepat adalah:", opts: ["Menentukan pilihan karier dan pengabdiannya secara sepihak tanpa meminta pendapatnya", "Menjadi mitra dialogis yang setara untuk membantu refleksi nilai, potensi, dan tanggung jawab mandiri", "Memperlakukannya seperti santri SD yang seluruh jadwalnya diatur menit per menit", "Mengkritik kebingungannya sebagai tanda kurangnya rasa syukur atas fasilitas pondok"] },
+      { id: 10, q: "Bagaimana cara paling tepat bagi ustadz/ustadzah membedakan antara 'kenakalan penyesuaian' pada santri baru dengan 'pelanggaran yang berakar masalah psikologis'?", opts: ["Melihat dari seberapa keras suara santri saat menjawab pertanyaan pembina", "Mengamati pola durasi, pemicu, dan respons emosional santri saat diberi arahan", "Menyamakan semua pelanggaran tata tertib ke dalam satu jenis sanksi standar", "Menunggu hingga santri melakukan pelanggaran berat lebih dari sepuluh kali"] },
+      { id: 11, q: "Seorang santri baru kelas 7 sering terlambat jamaah Subuh dan lupa jadwal piket kamar pada bulan pertama masuk pondok, namun tampak malu dan berusaha memperbaiki diri saat diingatkan. Langkah penanganan yang paling proporsional adalah:", opts: ["Mengkategorikannya sebagai kasus darurat psikologis dan segera merujuk ke psikolog", "Memberikan edukasi aturan, pendampingan rutinitas jadwal harian, dan konsekuensi edukatif", "Menghukumnya berdiri di lapangan selama jam pelajaran pagi berlangsung", "Mengumumkan kelalaiannya melalui pengeras suara asrama agar cepat berubah"] },
+      { id: 12, q: "Seorang santri yang biasanya ceria mendadak menjadi sangat murung, sering mengeluh pusing tanpa sebab medis, mengurung diri, dan berulang kali melanggar aturan meski sudah diberi sanksi. Langkah pertama yang harus dilakukan ustadz/ustadzah adalah:", opts: ["Menambah berat jenis sanksi agar kebiasaannya segera berhenti total", "Menunda hukuman berat, melakukan dialog empatik di ruang aman, dan menelusuri beban batinnya", "Memaksa santri menceritakan masalahnya di depan seluruh anggota kamar", "Menganggap keluhan sakitnya hanya alasan malas mengikuti kegiatan pondok"] },
+      { id: 13, q: "Dalam prinsip 'gunung es perilaku', ketika seorang santri kedapatan melanggar aturan asrama, hal utama yang perlu disadari ustadz/ustadzah adalah:", opts: ["Perilaku pelanggaran yang tampak hanyalah gejala permukaan dari kebutuhan atau emosi di baliknya", "Fokus pembinaan cukup diarahkan pada menghentikan tindakan luar tanpa peduli penyebabnya", "Semua santri yang melanggar aturan memiliki niat sengaja menentang wibawa guru", "Faktor keluarga dan tekanan teman sebaya tidak memengaruhi perilaku santri di pondok"] },
+      { id: 14, q: "Ketika mendapati indikasi kelekatan emosional berlebih sesama jenis (ta'alluq) di asrama, pendekatan awal yang bijak dan edukatif bagi ustadz/ustadzah adalah:", opts: ["Mempermalukan kedua santri di depan umum dan memberi julukan negatif", "Melakukan tabayyun empat mata, memahami kebutuhan afeksi yang melatarinya, dan membimbing batas pergaulan sehat", "Langsung mengeluarkan keduanya dari pesantren pada hari yang sama tanpa asesmen", "Mengabaikan fenomena tersebut selama nilai akademik keduanya masih baik"] },
+      { id: 15, q: "Saat ustadz/ustadzah berkata 'Iya, silakan cerita, ustadz tidak marah kok', tetapi wajahnya cemberut, tangan terlipat di dada, dan matanya sibuk menatap layar HP, pesan apakah yang sebenarnya ditangkap santri?", opts: ["Ustadz sangat antusias dan siap mendengarkan seluruh keluh kesahnya", "Santri menangkap ketidaktertarikan dan rasa tidak aman karena bahasa tubuh lebih dominan daripada kata-kata", "Kata-kata lisan tetap dipercaya sepenuhnya oleh santri meskipun ekspresi wajah berbeda", "Santri akan merasa lebih santai karena ustadz tidak menatap wajahnya"] },
+      { id: 16, q: "Seorang santri baru saja dimarahi teman sekamarnya dan datang menemui ustadzah dengan napas tersengal serta wajah tegang. Mengapa memberi ceramah panjang pada menit pertama justru tidak efektif?", opts: ["Karena santri sudah memahami seluruh isi nasihat sebelum disampaikan", "Karena gejolak emosi yang belum tenang menghambat penerimaan dan pengolahan pesan di pikirannya", "Karena ceramah hanya boleh disampaikan pada kegiatan pengajian rutin", "Karena santri lebih membutuhkan sanksi tertulis daripada penjelasan lisan"] },
+      { id: 17, q: "Dalam komunikasi efektif dengan santri, penerapan prinsip 'Respect' dan 'Empathy' paling tampak pada perilaku ustadz/ustadzah yang:", opts: ["Memotong pembicaraan santri agar inti masalah cepat selesai dalam dua menit", "Memuliakan martabat santri sebagai manusia dan berusaha memahami sudut pandang perasaannya", "Menggunakan istilah psikologi yang rumit agar santri segan terhadap pembina", "Langsung menyimpulkan kesalahan santri sebelum ia selesai bercerita"] },
+      { id: 18, q: "Santri berkata pelan: 'Ustadz, saya rasanya tidak sanggup lagi mengejar target hafalan bulan ini, kepala saya pusing setiap malam.' Respons manakah yang bebas dari penghambat komunikasi (roadblocks)?", opts: ["'Ah, baru segitu saja sudah mengeluh, santri lain juga sama-sama capek kok.'", "'Kamu tuh sebenarnya kurang mengatur waktu tidur saja, makanya pusing.'", "'Kamu merasa sangat tertekan dan kelelahan mengejar target bulan ini ya? Ceritakan bagian mana yang paling berat.'", "'Pokoknya jangan banyak alasan, besok harus tetap setor sesuai jadwal!'"] },
+      { id: 19, q: "Mengapa ucapan 'Kamu tuh sebenarnya cuma cari perhatian saja' atau 'Dasar anak pemalas' sangat berbahaya dalam proses konseling santri?", opts: ["Membuat santri terlalu bergantung pada nasihat ustadz/ustadzah", "Melabeli dan mendiagnosis sepihak memicu sikap defensif, rasa malu, dan menutup pintu kejujuran", "Membuat percakapan menjadi terlalu santai sehingga santri lupa aturan", "Mempercepat santri menyadari kekeliruannya tanpa perlu dijelaskan"] },
+      { id: 20, q: "Saat santri menceritakan kebingungannya memilih antara lanjut studi atau mengabdi, ustadzah langsung berkata: 'Sudah, ikuti saja saran ustadzah, tidak usah dipikirkan lagi.' Dampak dari respons ini adalah:", opts: ["Melatih santri mengambil keputusan mandiri secara bertanggung jawab", "Mengambil alih tanggung jawab berpikir santri sehingga ia tidak belajar memecahkan masalahnya sendiri", "Meningkatkan kemampuan refleksi diri santri dalam jangka panjang", "Menghilangkan seluruh keraguan batin santri secara permanen"] },
+      { id: 21, q: "Bagaimana cara ustadz/ustadzah menerapkan sikap duduk dan postur yang sesuai prinsip SOLER saat mendampingi santri di ruang konseling?", opts: ["Duduk di balik meja besar sambil melipat tangan di dada agar tampak berwibawa", "Duduk menghadap secara wajar dan beradab, postur terbuka, condong ringan, serta bahu rileks", "Duduk sangat dekat hingga menyentuh lutut santri sambil menatap tajam tanpa berkedip", "Duduk menyamping sambil terus membolak-balik buku catatan pelanggaran"] },
+      { id: 22, q: "Dalam praktik konseling dengan santriwati atau santri yang sedang menangis karena merasa bersalah, penerapan kontak mata (Eye Contact) yang tepat adalah:", opts: ["Menatap tajam terus-menerus agar santri berani menghadapi kesalahannya", "Menjaga tatapan yang hangat, lembut, dan memberi jeda alami tanpa memaksakan kontak mata terus-menerus", "Membuang muka ke arah jendela selama santri menangis hingga ia berhenti sendiri", "Meminta santri mengangkat kepala dan menatap mata pembina sebelum boleh bercerita"] },
+      { id: 23, q: "Pada menit-menit awal sesi konseling (tahap membangun rapport), santri tampak tegang, menunduk, dan takut akan dihukum. Tindakan awal manakah yang paling tepat dilakukan ustadz/ustadzah?", opts: ["Langsung menanyakan kronologi pelanggaran secara rinci agar waktu lebih efisien", "Menyapa hangat, mengajak berbincang ringan yang netral, serta menegaskan jaminan amanah kerahasiaan", "Membacakan daftar sanksi tata tertib pondok terlebih dahulu sebagai peringatan awal", "Meminta ketua kamar ikut duduk mendampingi agar ada saksi pembicaraan"] },
+      { id: 24, q: "Saat menggali akar masalah (tahap eksplorasi kasus), mengapa pertanyaan yang diawali kata 'Apa' atau 'Bagaimana' lebih disarankan daripada pertanyaan 'Kenapa'?", opts: ["Karena pertanyaan 'Apa' dan 'Bagaimana' menghasilkan jawaban singkat 'ya' atau 'tidak'", "Karena pertanyaan 'Kenapa' sering terdengar menuduh dan memicu alasan pembelaan diri, sedangkan 'Apa/Bagaimana' membantu santri bercerita", "Karena pertanyaan 'Apa' dan 'Bagaimana' tidak memerlukan keterampilan mendengarkan aktif", "Karena santri tidak boleh ditanya mengenai alasan di balik perbuatannya"] },
+      { id: 25, q: "Di tengah sesi konseling, ustadz berkata: 'Jadi kalau ustadz tangkap dari ceritamu tadi, kamu sebenarnya bukan malas setoran, tapi cemas takut salah di depan teman-temanmu, betul begitu?' Teknik apakah yang sedang dipraktikkan ustadz tersebut?", opts: ["Menginterogasi dan mencari-cari kesalahan tersembunyi santri", "Refleksi perasaan dan parafrase untuk memastikan pemahaman yang akurat serta membuat santri merasa dipahami", "Memberikan perintah langsung agar santri mengubah sikapnya hari itu juga", "Mengalihkan pembicaraan dari masalah utama ke topik yang lebih ringan"] }
+    ];
+
+    let currentUser = null;
+    let currentPassword = "";
+    let activeTestType = null;
+    let sessionExpiresMs = 0;
+    let timerInterval = null;
+    let tabSwitchCount = 0;
+    let isExamActive = false;
+    let selectedAnswers = {}; // key: original question id (1..25), value: original letter ('A'..'D')
+
+    function seededRand(seedStr) {
+      let h = 2166136261;
+      for (let i = 0; i < seedStr.length; i++) {
+        h ^= seedStr.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      let s = (h >>> 0) || 1;
+      return function () {
+        s = (Math.imul(1664525, s) + 1013904223) >>> 0;
+        return s / 4294967296;
+      };
+    }
+
+    function shuffleWithSeed(arr, randFn) {
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(randFn() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    async function postToGas(payload) {
+      const res = await fetch(GAS_WEB_APP_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+      return await res.json();
+    }
+
+    async function handleLogin() {
+      const u = document.getElementById("usernameInput").value.trim();
+      const p = document.getElementById("passwordInput").value;
+      const msgEl = document.getElementById("loginMsg");
+      msgEl.textContent = "";
+
+      if (!u || !p) {
+        msgEl.textContent = "Username dan password wajib diisi.";
+        return;
+      }
+
+      const btn = document.getElementById("loginBtn");
+      btn.disabled = true;
+      btn.textContent = "Memeriksa...";
+      try {
+        const data = await postToGas({ action: "login", username: u, password: p });
+        if (!data.ok) {
+          msgEl.textContent = data.message || "Login gagal.";
+          return;
+        }
+        currentUser = data.user;
+        currentPassword = p;
+        showLobby(data.history);
+      } catch (e) {
+        msgEl.textContent = "Gagal terhubung ke server. Periksa Web App URL.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Masuk";
+      }
+    }
+
+    function showLobby(history) {
+      document.getElementById("loginPanel").classList.add("hidden");
+      document.getElementById("resultPanel").classList.add("hidden");
+      document.getElementById("lobbyPanel").classList.remove("hidden");
+
+      document.getElementById("userDisplayName").textContent = currentUser.nama_lengkap;
+      const preTxt = history && history.pre_submitted ? `Pre-Test: Selesai (${history.pre_data.score})` : "Pre-Test: Belum";
+      const postTxt = history && history.post_submitted ? `Post-Test: Selesai (${history.post_data.score})` : "Post-Test: Belum";
+      document.getElementById("userDisplayMeta").textContent =
+        `Akun: ${currentUser.username} • ${currentUser.kategori} • ${currentUser.unit_amanah} | ${preTxt} | ${postTxt}`;
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      currentPassword = "";
+      isExamActive = false;
+      clearInterval(timerInterval);
+      document.getElementById("lobbyPanel").classList.add("hidden");
+      document.getElementById("examPanel").classList.add("hidden");
+      document.getElementById("resultPanel").classList.add("hidden");
+      document.getElementById("loginPanel").classList.remove("hidden");
+      document.getElementById("passwordInput").value = "";
+    }
+
+    function backToLobby() {
+      document.getElementById("resultPanel").classList.add("hidden");
+      document.getElementById("lobbyPanel").classList.remove("hidden");
+    }
+
+    async function startTestSession() {
+      const jenisTes = document.getElementById("jenisTesSelect").value;
+      const msgEl = document.getElementById("lobbyMsg");
+      msgEl.textContent = "";
+
+      const btn = document.getElementById("startBtn");
+      btn.disabled = true;
+      btn.textContent = "Menyiapkan sesi...";
+
+      try {
+        const data = await postToGas({
+          action: "start_session",
+          username: currentUser.username,
+          password: currentPassword,
+          jenis_tes: jenisTes
+        });
+        if (!data.ok) {
+          msgEl.textContent = data.message || "Tidak dapat memulai tes.";
+          return;
+        }
+
+        activeTestType = jenisTes;
+        selectedAnswers = {};
+        tabSwitchCount = 0;
+        document.getElementById("tabSwitchText").textContent = "0";
+        sessionExpiresMs = Number(data.session.expires_at_ms);
+
+        const randQ = seededRand(currentUser.username.toLowerCase() + "::" + jenisTes);
+        const orderedQuestions = shuffleWithSeed(BANK_SOAL, randQ);
+
+        renderQuestions(orderedQuestions, jenisTes);
+        document.getElementById("lobbyPanel").classList.add("hidden");
+        document.getElementById("examPanel").classList.remove("hidden");
+        document.getElementById("activeTestLabel").textContent =
+          `${jenisTes === "PRE_TEST" ? "PRE-TEST" : "POST-TEST"} — ${currentUser.nama_lengkap}`;
+
+        isExamActive = true;
+        startCountdown();
+      } catch (e) {
+        msgEl.textContent = "Terjadi kesalahan saat memulai sesi.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Mulai Tes";
+      }
+    }
+
+    function renderQuestions(orderedQuestions, jenisTes) {
+      const container = document.getElementById("questionsContainer");
+      container.innerHTML = "";
+      const letters = ["A", "B", "C", "D"];
+
+      orderedQuestions.forEach((item, idx) => {
+        const randOpt = seededRand(currentUser.username.toLowerCase() + "::" + jenisTes + "::q" + item.id);
+        const indexedOpts = item.opts.map((txt, oIdx) => ({
+          origLetter: letters[oIdx],
+          text: txt
+        }));
+        const shuffledOpts = shuffleWithSeed(indexedOpts, randOpt);
+
+        const card = document.createElement("div");
+        card.className = "q-card";
+
+        const title = document.createElement("div");
+        title.className = "q-title";
+        title.textContent = `${idx + 1}. ${item.q}`;
+        card.appendChild(title);
+
+        shuffledOpts.forEach((optObj, dispIdx) => {
+          const dispLetter = letters[dispIdx];
+          const lbl = document.createElement("label");
+          lbl.className = "opt-item";
+
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = `q_${item.id}`;
+          radio.value = optObj.origLetter;
+          radio.onchange = () => {
+            selectedAnswers[item.id] = optObj.origLetter;
+            updateProgressCount();
+          };
+
+          const span = document.createElement("span");
+          span.textContent = `${dispLetter}. ${optObj.text}`;
+
+          lbl.appendChild(radio);
+          lbl.appendChild(span);
+          card.appendChild(lbl);
+        });
+
+        container.appendChild(card);
+      });
+
+      updateProgressCount();
+    }
+
+    function updateProgressCount() {
+      const answered = Object.keys(selectedAnswers).length;
+      document.getElementById("progressCount").textContent = `${answered}/25 Terjawab`;
+    }
+
+    function startCountdown() {
+      clearInterval(timerInterval);
+      function tick() {
+        const remMs = sessionExpiresMs - Date.now();
+        if (remMs <= 0) {
+          document.getElementById("timerText").textContent = "00:00";
+          clearInterval(timerInterval);
+          if (isExamActive) {
+            submitAnswers(true);
+          }
+          return;
+        }
+        const totalSec = Math.floor(remMs / 1000);
+        const min = String(Math.floor(totalSec / 60)).padStart(2, "0");
+        const sec = String(totalSec % 60).padStart(2, "0");
+        document.getElementById("timerText").textContent = `${min}:${sec}`;
+      }
+      tick();
+      timerInterval = setInterval(tick, 1000);
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (isExamActive && document.hidden) {
+        tabSwitchCount++;
+        document.getElementById("tabSwitchText").textContent = String(tabSwitchCount);
+      }
+    });
+
+    async function submitAnswers(autoByTimeout) {
+      if (!isExamActive) return;
+      const msgEl = document.getElementById("submitMsg");
+      msgEl.textContent = "";
+
+      if (!autoByTimeout && Object.keys(selectedAnswers).length < 25) {
+        const okConfirm = confirm("Masih ada soal yang belum dijawab. Tetap kirim jawaban sekarang?");
+        if (!okConfirm) return;
+      }
+
+      const btn = document.getElementById("submitBtn");
+      btn.disabled = true;
+      btn.textContent = "Mengirim...";
+      isExamActive = false;
+      clearInterval(timerInterval);
+
+      try {
+        const data = await postToGas({
+          action: "submit_test",
+          username: currentUser.username,
+          password: currentPassword,
+          jenis_tes: activeTestType,
+          answers: selectedAnswers,
+          tab_switch_count: tabSwitchCount
+        });
+
+        if (!data.ok) {
+          msgEl.textContent = data.message || "Gagal menyimpan jawaban.";
+          isExamActive = true;
+          startCountdown();
+          return;
+        }
+
+        renderIndividualResult(data.result);
+      } catch (e) {
+        msgEl.textContent = "Koneksi terputus saat mengirim. Silakan coba kirim ulang.";
+        isExamActive = true;
+        startCountdown();
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Kirim Jawaban";
+      }
+    }
+
+    function renderIndividualResult(res) {
+      document.getElementById("examPanel").classList.add("hidden");
+      document.getElementById("resultPanel").classList.remove("hidden");
+
+      document.getElementById("resultSummaryText").innerHTML = `
+        <strong>${res.nama_lengkap}</strong> (${res.jenis_tes})<br/>
+        Skor: <strong>${res.skor_0_100}</strong> / 100 (${res.jumlah_benar} dari ${res.total_soal} soal benar)<br/>
+        Durasi: <strong>${res.durasi_detik} detik</strong> • Pindah Tab: <strong>${res.jumlah_pindah_tab}x</strong> • Integritas: <strong>${res.status_integritas}</strong>
+      `;
+
+      let html = "<table><thead><tr><th>Topik Materi</th><th>Benar</th><th>Persentase</th></tr></thead><tbody>";
+      Object.keys(res.skor_per_topik || {}).forEach(t => {
+        const st = res.skor_per_topik[t];
+        html += `<tr><td>${t}</td><td>${st.correct}/${st.total}</td><td>${st.pct}%</td></tr>`;
+      });
+      html += "</tbody></table>";
+      document.getElementById("topicBreakdown").innerHTML = html;
+    }
+
+    async function loadCohortSummary() {
+      const panel = document.getElementById("summaryPanel");
+      panel.classList.remove("hidden");
+      document.getElementById("cohortStatsGrid").innerHTML = "<div class='stat-box'><div class='k'>Memuat data...</div></div>";
+
+      try {
+        const res = await fetch(`${GAS_WEB_APP_URL}?action=summary`);
+        const json = await res.json();
+        if (!json.ok) {
+          document.getElementById("cohortAnalysisBox").textContent = json.message || "Gagal memuat rekap.";
+          return;
+        }
+        const s = json.data.cohort_summary;
+        document.getElementById("cohortStatsGrid").innerHTML = `
+          <div class="stat-box"><div class="k">Rata-Rata Total Pre-Test</div><div class="v">${s.rata_rata_pre}</div></div>
+          <div class="stat-box"><div class="k">Rata-Rata Total Post-Test</div><div class="v">${s.rata_rata_post}</div></div>
+          <div class="stat-box"><div class="k">Selisih Rata-Rata (Gain)</div><div class="v">${s.selisih_rata_rata >= 0 ? "+" : ""}${s.selisih_rata_rata}</div></div>
+          <div class="stat-box"><div class="k">Kategori Efektivitas</div><div class="v" style="font-size:15px;">${s.kategori_efektivitas}</div></div>
+        `;
+        document.getElementById("cohortAnalysisBox").innerHTML = `
+          <strong>Analisa Hasil Pelatihan:</strong> ${s.narasi_analisa}<br/>
+          <span style="font-size:12.5px; color:var(--muted);">
+            Peserta Pre-Test: ${s.jumlah_peserta_pre} | Peserta Post-Test: ${s.jumlah_peserta_post} | Meningkat: ${s.peserta_meningkat} | Tetap: ${s.peserta_tetap} | Menurun: ${s.peserta_menurun} | Perlu Cek Integritas: ${s.peserta_perlu_cek_integritas}
+          </span>
+        `;
+
+        let tHtml = "<table><thead><tr><th>Topik</th><th>Rata-Rata Pre (%)</th><th>Rata-Rata Post (%)</th><th>Selisih</th></tr></thead><tbody>";
+        Object.keys(s.perbandingan_topik || {}).forEach(t => {
+          const pt = s.perbandingan_topik[t];
+          tHtml += `<tr><td>${t}</td><td>${pt.rata_pre}%</td><td>${pt.rata_post}%</td><td>${pt.selisih >= 0 ? "+" : ""}${pt.selisih}%</td></tr>`;
+        });
+        tHtml += "</tbody></table>";
+        document.getElementById("topicTableWrap").innerHTML = tHtml;
+      } catch (e) {
+        document.getElementById("cohortAnalysisBox").textContent = "Tidak dapat mengambil ringkasan dari server.";
+      }
+    }
+  </script>
+</body>
+</html>
