@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pendampingan Konseling & Triage PFA — PP Al Furqon</title>
+  <style>
+    :root {
+      --bg: #f4f7f5;
+      --card: #ffffff;
+      --primary: #1b4332;
+      --primary-dark: #102a1f;
+      --accent: #b45309;
+      --border: #d1d5db;
+      --text: #1e293b;
+      --muted: #64748b;
+      --red: #b91c1c;
+      --red-bg: #fef2f2;
+      --yellow: #b45309;
+      --yellow-bg: #fffbeb;
+      --green: #15803d;
+      --green-bg: #f0fdf4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 16px;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    .header-box {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .header-box .tag { font-size: 12px; font-weight: 700; color: #fde047; text-transform: uppercase; letter-spacing: 0.6px; }
+    .header-box h1 { font-size: 20px; margin: 4px 0; }
+    .header-box p { font-size: 13px; color: #e2e8f0; }
+    .card {
+      background: var(--card);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+    .form-group { margin-bottom: 12px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    input[type="text"], input[type="password"], select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    textarea { min-height: 80px; resize: vertical; }
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 15px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 6px;
+      margin-top: 4px;
+      text-decoration: none;
+    }
+    .btn:hover { background: var(--primary-dark); }
+    .btn-accent { background: var(--accent); }
+    .btn-danger { background: var(--red); }
+    .btn-outline { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .hidden { display: none; }
+    .msg-err { color: var(--red); font-size: 13px; font-weight: 600; margin-top: 8px; }
+    .msg-ok { color: var(--green); font-size: 13px; font-weight: 600; margin-top: 8px; }
+
+    /* Triage Boxes */
+    .triage-section {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .triage-red { background: var(--red-bg); border-color: #fecaca; }
+    .triage-yellow { background: var(--yellow-bg); border-color: #fde68a; }
+    .triage-title { font-size: 13.5px; font-weight: 700; margin-bottom: 8px; }
+    .chk-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+    .chk-item input { margin-top: 3px; }
+    .pfa-guide {
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    .guide-HIJAU { background: var(--green-bg); border-left: 4px solid var(--green); color: #14532d; }
+    .guide-KUNING { background: var(--yellow-bg); border-left: 4px solid var(--yellow); color: #78350f; }
+    .guide-MERAH { background: var(--red-bg); border-left: 4px solid var(--red); color: #7f1d1d; font-weight: 700; }
+
+    /* Ticket Cards */
+    .ticket-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
+      background: #fcfdfd;
+    }
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .b-MERAH { background: #fee2e2; color: var(--red); }
+    .b-KUNING { background: #fef3c7; color: var(--yellow); }
+    .b-HIJAU { background: #dcfce7; color: var(--green); }
+    .b-PROSES { background: #e0f2fe; color: #0369a1; }
+    .b-SELESAI { background: #e2e8f0; color: #334155; }
+    .log-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 12.5px;
+    }
+    .log-item { border-bottom: 1px dashed #cbd5e1; padding: 6px 0; }
+    .log-item:last-child { border-bottom: none; }
+    .private-note {
+      background: #fdf2f8;
+      border-left: 3px solid #be185d;
+      padding: 6px 8px;
+      margin-top: 4px;
+      color: #831843;
+      font-size: 12px;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-box">
+      <div class="tag">PP Al Furqon Al Islami • Sedayu, Gresik</div>
+      <h1>Sistem Pendampingan Konseling 6 Level & Triage PFA</h1>
+      <p>Deteksi Dini, Pertolongan Pertama Psikologis (Look, Listen, Link), dan Eskalasi Berjenjang</p>
+    </div>
+
+    <!-- PANEL 1: LOGIN -->
+    <div id="loginPanel" class="card">
+      <h2 style="font-size:17px; margin-bottom:12px;">Login Pembina / Kesantrian / Psikolog</h2>
+      <div class="form-group">
+        <label for="uInput">Username</label>
+        <input type="text" id="uInput" placeholder="Contoh: musrif1 / kes_smp / psikolog1" autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label for="pInput">Password</label>
+        <input type="password" id="pInput" placeholder="Masukkan password" autocomplete="current-password" />
+      </div>
+      <button class="btn" id="loginBtn" onclick="handleLogin()">Masuk</button>
+      <div id="loginMsg" class="msg-err"></div>
+    </div>
+
+    <!-- PANEL 2: DASHBOARD UTAMA -->
+    <div id="dashPanel" class="hidden">
+      <div class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <strong id="dispName" style="font-size:16px;"></strong>
+          <div id="dispMeta" style="font-size:12.5px; color:var(--muted);"></div>
+        </div>
+        <div>
+          <button class="btn btn-accent" onclick="toggleCreateForm(true)">+ Buat Laporan / Triage PFA</button>
+          <button class="btn btn-outline" onclick="loadTickets()">Muat Ulang</button>
+          <button class="btn btn-outline" onclick="handleLogout()">Keluar</button>
+        </div>
+      </div>
+
+      <!-- FORM BUAT LAPORAN + TRIAGE PFA -->
+      <div id="createFormCard" class="card hidden">
+        <h2 style="font-size:16.5px; margin-bottom:10px;">Formulir Laporan Awal & Triage PFA</h2>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="fNamaSantri">Nama Santri *</label>
+            <input type="text" id="fNamaSantri" placeholder="Nama lengkap santri" />
+          </div>
+          <div class="form-group">
+            <label for="fMarhalah">Marhalah *</label>
+            <select id="fMarhalah">
+              <option value="SD">SD</option>
+              <option value="SMP">SMP</option>
+              <option value="SMA">SMA</option>
+              <option value="ALI">ALI / Diploma</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="fKelasKamar">Kelas & Kamar Asrama</label>
+          <input type="text" id="fKelasKamar" placeholder="Contoh: Kelas 8A / Kamar Umar 2" />
+        </div>
+
+        <!-- CHECKLIST TRIAGE PFA -->
+        <div class="triage-section triage-red">
+          <div class="triage-title" style="color:var(--red);">ZONA MERAH — Darurat Nyawa & Keselamatan (Bypass ke Kesantrian Pusat & Psikolog)</div>
+          <label class="chk-item"><input type="checkbox" class="chk-red" value="Ada niat/percobaan menyakiti diri (self-harm) atau bunuh diri" onchange="evaluateTriage()" /> Ada niat / percobaan menyakiti diri sendiri (self-harm) atau bunuh diri</label>
+          <label class="chk-item"><input type="checkbox" class="chk-red" value="Ancaman kekerasan fisik berat atau pelecehan/kekerasan seksual" onchange="evaluateTriage()" /> Ancaman kekerasan fisik berat atau pelecehan / kekerasan seksual</label>
+          <label class="chk-item"><input type="checkbox" class="chk-red" value="Santri kabur dari pondok / hilang kontak" onchange="evaluateTriage()" /> Santri kabur dari pondok / hilang kontak</label>
+          <label class="chk-item"><input type="checkbox" class="chk-red" value="Serangan panik berat / kondisi mental sangat kacau / tidak sadar realitas" onchange="evaluateTriage()" /> Serangan panik berat / kondisi mental sangat kacau</label>
+        </div>
+
+        <div class="triage-section triage-yellow">
+          <div class="triage-title" style="color:var(--yellow);">ZONA KUNING — Gawat / Mendesak (Loncat ke Kesantrian Marhalah)</div>
+          <label class="chk-item"><input type="checkbox" class="chk-yellow" value="Menarik diri ekstrem / tidak mau makan / mengurung diri berkepanjangan" onchange="evaluateTriage()" /> Menarik diri ekstrem / mengurung diri berkepanjangan</label>
+          <label class="chk-item"><input type="checkbox" class="chk-yellow" value="Menangis terus-menerus atau keluhan fisik berulang tanpa sebab medis" onchange="evaluateTriage()" /> Menangis terus-menerus / keluhan fisik berulang tanpa sebab medis</label>
+          <label class="chk-item"><input type="checkbox" class="chk-yellow" value="Indikasi perundungan (bullying) atau konflik berat antarsantri" onchange="evaluateTriage()" /> Indikasi perundungan (bullying) atau konflik berat</label>
+          <label class="chk-item"><input type="checkbox" class="chk-yellow" value="Indikasi kelekatan emosional tidak sehat (ta'alluq) / pelanggaran berat berulang" onchange="evaluateTriage()" /> Indikasi kelekatan tidak sehat (ta'alluq) / pelanggaran berat berulang</label>
+        </div>
+
+        <div id="pfaGuideBox" class="pfa-guide guide-HIJAU">
+          <strong>Status Triage: HIJAU (Ringan / Rutin)</strong><br />
+          Panduan PFA (Look & Listen): Dengarkan keluhan dengan tenang di tempat nyaman, validasi perasaannya, dan buat kesepakatan harian sederhana.
+        </div>
+
+        <div class="form-group">
+          <label for="fRingkasan">Ringkasan Masalah / Observasi Perilaku *</label>
+          <textarea id="fRingkasan" placeholder="Ceritakan perilaku yang tampak, pemicu, dan kondisi emosi santri saat ini..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="fPfaAwal">Tindakan PFA Awal yang Sudah Dilakukan (Look, Listen, Link)</label>
+          <textarea id="fPfaAwal" placeholder="Contoh: Santri sudah diajak ke ruang tenang, diberi minum, didengarkan tanpa dihakimi..."></textarea>
+        </div>
+
+        <button class="btn btn-accent" id="submitTicketBtn" onclick="submitNewTicket()">Kirim Laporan</button>
+        <button class="btn btn-outline" onclick="toggleCreateForm(false)">Batal</button>
+        <div id="createMsg" class="msg-err"></div>
+        <div id="createOkBox" class="msg-ok"></div>
+      </div>
+
+      <!-- DAFTAR TIKET -->
+      <div class="card">
+        <h2 style="font-size:16.5px; margin-bottom:10px;">Daftar Kasus Pendampingan</h2>
+        <div id="ticketsList">Memuat data...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbyymDLWIw0HBgAo7bqjiD651YY6N1DuXNrp15kn1vGUjn8stPZi5A7Tnt48nxtFEGno/exec";
+
+    let currentUser = null;
+    let currentPass = "";
+    let activeTriageZone = "HIJAU";
+
+    const LEVEL_NAMES = {
+      1: "Level 1 (Guru / Musrif)",
+      2: "Level 2 (Wali Kelas / Koord. Musrif)",
+      3: "Level 3 (Kesantrian Marhalah)",
+      4: "Level 4 (Kepala Sekolah)",
+      5: "Level 5 (Kesantrian Pusat)",
+      6: "Level 6 (Konselor / Psikolog)"
+    };
+
+    async function postApi(payload) {
+      const res = await fetch(GAS_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+      return await res.json();
+    }
+
+    async function handleLogin() {
+      const u = document.getElementById("uInput").value.trim();
+      const p = document.getElementById("pInput").value;
+      const msg = document.getElementById("loginMsg");
+      msg.textContent = "";
+
+      if (!u || !p) { msg.textContent = "Username dan password wajib diisi."; return; }
+
+      const btn = document.getElementById("loginBtn");
+      btn.disabled = true;
+      btn.textContent = "Memeriksa...";
+      try {
+        const res = await postApi({ action: "login", username: u, password: p });
+        if (!res.ok) { msg.textContent = res.message || "Login gagal."; return; }
+        currentUser = res.user;
+        currentPass = p;
+
+        document.getElementById("loginPanel").classList.add("hidden");
+        document.getElementById("dashPanel").classList.remove("hidden");
+        document.getElementById("dispName").textContent = currentUser.nama_lengkap;
+        document.getElementById("dispMeta").textContent =
+          `${currentUser.role} • ${LEVEL_NAMES[currentUser.level] || "Level " + currentUser.level} • Marhalah: ${currentUser.marhalah}`;
+
+        if (["SD", "SMP", "SMA", "ALI"].includes(currentUser.marhalah)) {
+          document.getElementById("fMarhalah").value = currentUser.marhalah;
+        }
+        loadTickets();
+      } catch (e) {
+        msg.textContent = "Gagal terhubung ke server.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Masuk";
+      }
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      currentPass = "";
+      document.getElementById("dashPanel").classList.add("hidden");
+      document.getElementById("loginPanel").classList.remove("hidden");
+      document.getElementById("pInput").value = "";
+    }
+
+    function toggleCreateForm(show) {
+      document.getElementById("createFormCard").classList.toggle("hidden", !show);
+      document.getElementById("createMsg").textContent = "";
+      document.getElementById("createOkBox").innerHTML = "";
+    }
+
+    function evaluateTriage() {
+      const redChecked = document.querySelectorAll(".chk-red:checked");
+      const yellowChecked = document.querySelectorAll(".chk-yellow:checked");
+      const box = document.getElementById("pfaGuideBox");
+
+      if (redChecked.length > 0) {
+        activeTriageZone = "MERAH";
+        box.className = "pfa-guide guide-MERAH";
+        box.innerHTML = "<strong>DARURAT — ZONA MERAH (Bypass ke Kesantrian Pusat & Psikolog)</strong><br/>INSTRUKSI PFA: JANGAN TINGGALKAN SANTRI SENDIRIAN! Jauhkan benda berbahaya, pastikan keselamatan fisik, lalu segera kirim laporan ini.";
+      } else if (yellowChecked.length > 0) {
+        activeTriageZone = "KUNING";
+        box.className = "pfa-guide guide-KUNING";
+        box.innerHTML = "<strong>GAWAT / MENDESAK — ZONA KUNING (Loncat ke Kesantrian Marhalah)</strong><br/>Panduan PFA: Pindahkan santri ke ruang aman, tenangkan emosinya, tunda hukuman/ceramah, dan segera teruskan ke Kesantrian Marhalah.";
+      } else {
+        activeTriageZone = "HIJAU";
+        box.className = "pfa-guide guide-HIJAU";
+        box.innerHTML = "<strong>Status Triage: HIJAU (Ringan / Rutin)</strong><br/>Panduan PFA (Look & Listen): Dengarkan keluhan dengan tenang di tempat nyaman, validasi perasaannya, dan buat kesepakatan harian sederhana.";
+      }
+    }
+
+    async function submitNewTicket() {
+      const nama_santri = document.getElementById("fNamaSantri").value.trim();
+      const marhalah = document.getElementById("fMarhalah").value;
+      const kelas_kamar = document.getElementById("fKelasKamar").value.trim();
+      const ringkasan_masalah = document.getElementById("fRingkasan").value.trim();
+      const tindakan_pfa_awal = document.getElementById("fPfaAwal").value.trim();
+      const msg = document.getElementById("createMsg");
+      const okBox = document.getElementById("createOkBox");
+      msg.textContent = "";
+      okBox.innerHTML = "";
+
+      if (!nama_santri || !ringkasan_masalah) {
+        msg.textContent = "Nama santri dan ringkasan masalah wajib diisi.";
+        return;
+      }
+
+      const indicators = [];
+      document.querySelectorAll(".chk-red:checked, .chk-yellow:checked").forEach(el => indicators.push(el.value));
+
+      const btn = document.getElementById("submitTicketBtn");
+      btn.disabled = true;
+      btn.textContent = "Mengirim...";
+      try {
+        const res = await postApi({
+          action: "create_ticket",
+          username: currentUser.username,
+          password: currentPass,
+          nama_santri,
+          marhalah,
+          kelas_kamar,
+          zona_triage: activeTriageZone,
+          indikator_triage: indicators.join("; ") || "Tidak ada tanda bahaya",
+          ringkasan_masalah,
+          tindakan_pfa_awal
+        });
+
+        if (!res.ok) { msg.textContent = res.message || "Gagal mengirim laporan."; return; }
+
+        let waHtml = "";
+        if (res.zona_triage === "MERAH") {
+          const waText = encodeURIComponent(
+            `[DARURAT PFA - ZONA MERAH]\nID Tiket: ${res.id_tiket}\nSantri: ${nama_santri} (${marhalah} - ${kelas_kamar})\nPelapor: ${currentUser.nama_lengkap}\nMohon segera penanganan Kesantrian Pusat / Psikolog.`
+          );
+          waHtml = `<br/><a class="btn btn-danger" style="margin-top:8px;" target="_blank" href="https://wa.me/?text=${waText}">Kirim Peringatan Cepat via WhatsApp</a>`;
+        }
+
+        okBox.innerHTML = `${res.message} (Diteruskan ke ${LEVEL_NAMES[res.level_tujuan] || "Level " + res.level_tujuan})${waHtml}`;
+        document.getElementById("fNamaSantri").value = "";
+        document.getElementById("fKelasKamar").value = "";
+        document.getElementById("fRingkasan").value = "";
+        document.getElementById("fPfaAwal").value = "";
+        document.querySelectorAll(".chk-red, .chk-yellow").forEach(el => el.checked = false);
+        evaluateTriage();
+        loadTickets();
+      } catch (e) {
+        msg.textContent = "Koneksi gagal saat mengirim laporan.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Kirim Laporan";
+      }
+    }
+
+    async function loadTickets() {
+      const wrap = document.getElementById("ticketsList");
+      wrap.innerHTML = "Memuat daftar kasus...";
+      try {
+        const res = await postApi({ action: "get_tickets", username: currentUser.username, password: currentPass });
+        if (!res.ok) { wrap.innerHTML = `<div class="msg-err">${res.message}</div>`; return; }
+
+        const list = res.tickets || [];
+        if (list.length === 0) {
+          wrap.innerHTML = "<p style='font-size:13.5px; color:var(--muted);'>Belum ada kasus pendampingan pada level/marhalah Anda.</p>";
+          return;
+        }
+
+        wrap.innerHTML = "";
+        list.forEach(t => {
+          const card = document.createElement("div");
+          card.className = "ticket-card";
+
+          const logsHtml = (t.logs || []).map(l => `
+            <div class="log-item">
+              <strong>${l.oleh_nama}</strong> (${l.oleh_role}) • <span style="color:var(--muted);">${l.timestamp}</span><br/>
+              <em>[${l.aksi}]</em> ${l.catatan_umum}
+              ${l.catatan_privat_psikolog ? `<div class="private-note"><strong>Catatan Klinis Privat (Psikolog):</strong> ${l.catatan_privat_psikolog}</div>` : ""}
+            </div>
+          `).join("");
+
+          const isPsikolog = Number(currentUser.level) === 6;
+          const canUpdate = t.status !== "SELESAI";
+
+          card.innerHTML = `
+            <div class="ticket-header">
+              <div>
+                <strong style="font-size:15px;">${t.nama_santri}</strong>
+                <span style="font-size:12.5px; color:var(--muted);">(${t.marhalah} • ${t.kelas_kamar || "-"})</span><br/>
+                <span style="font-size:12px; color:var(--muted);">ID: ${t.id_tiket} • Pelapor: ${t.pelapor_nama} • Posisi: <strong>${LEVEL_NAMES[t.level_saat_ini] || "Level " + t.level_saat_ini}</strong></span>
+              </div>
+              <div>
+                <span class="badge b-${t.zona_triage}">TRIAGE ${t.zona_triage}</span>
+                <span class="badge b-${t.status}">${t.status}</span>
+              </div>
+            </div>
+            <div style="font-size:13.5px; margin-bottom:6px;">
+              <strong>Ringkasan:</strong> ${t.ringkasan_masalah}<br/>
+              <strong>Indikator Triage:</strong> ${t.indikator_triage}<br/>
+              <strong>PFA Awal:</strong> ${t.tindakan_pfa_awal}
+              ${t.rekomendasi_akhir ? `<br/><strong style="color:var(--primary);">Rekomendasi Akhir:</strong> ${t.rekomendasi_akhir}` : ""}
+            </div>
+            <div class="log-box">
+              <strong>Riwayat Penanganan:</strong>
+              ${logsHtml || "<div>Belum ada catatan lanjutan.</div>"}
+            </div>
+            ${canUpdate ? `
+              <div style="margin-top:10px; padding-top:10px; border-top:1px solid #e2e8f0;">
+                <textarea id="note_${t.id_tiket}" placeholder="Tulis catatan pendampingan / rekomendasi praktis yang bisa dibaca pembina..."></textarea>
+                ${isPsikolog ? `<textarea id="priv_${t.id_tiket}" style="margin-top:6px; border-color:#be185d;" placeholder="[KHUSUS PSIKOLOG] Catatan klinis privat (hanya bisa dibaca Level 6)..."></textarea>` : ""}
+                <div style="margin-top:6px;">
+                  <button class="btn" onclick="updateTicket('${t.id_tiket}', 'TANGANI')">Simpan Catatan</button>
+                  ${Number(currentUser.level) < 6 ? `<button class="btn btn-accent" onclick="updateTicket('${t.id_tiket}', 'ESKALASI')">Eskalasi ke Level Atas</button>` : `<button class="btn btn-accent" onclick="updateTicket('${t.id_tiket}', 'REKOMENDASI')">Kirim Rekomendasi ke Pembina</button>`}
+                  <button class="btn btn-outline" onclick="updateTicket('${t.id_tiket}', 'SELESAI')">Tandai Selesai</button>
+                </div>
+              </div>
+            ` : ""}
+          `;
+          wrap.appendChild(card);
+        });
+      } catch (e) {
+        wrap.innerHTML = "<div class='msg-err'>Gagal memuat daftar kasus.</div>";
+      }
+    }
+
+    async function updateTicket(idTiket, aksi) {
+      const noteEl = document.getElementById("note_" + idTiket);
+      const privEl = document.getElementById("priv_" + idTiket);
+      const catatan_umum = noteEl ? noteEl.value.trim() : "";
+      const catatan_privat_psikolog = privEl ? privEl.value.trim() : "";
+
+      if (!catatan_umum) {
+        alert("Mohon isi catatan tindak lanjut terlebih dahulu.");
+        return;
+      }
+
+      try {
+        const res = await postApi({
+          action: "update_ticket",
+          username: currentUser.username,
+          password: currentPass,
+          id_tiket: idTiket,
+          aksi: aksi,
+          catatan_umum: catatan_umum,
+          catatan_privat_psikolog: catatan_privat_psikolog
+        });
+        if (!res.ok) { alert(res.message || "Gagal memperbarui tiket."); return; }
+        loadTickets();
+      } catch (e) {
+        alert("Gagal terhubung ke server.");
+      }
+    }
+  </script>
+</body>
+</html>
